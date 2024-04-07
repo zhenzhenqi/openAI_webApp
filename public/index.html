@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Form</title>
+	<style>
+		body {
+			background-color: black;
+			color: white;
+			font-family: sans-serif;
+		}
+
+		form {
+			background-color: white;
+			color: black;
+			padding: 20px;
+			border-radius: 5px;
+		}
+
+		input[type="text"],
+		button {
+			padding: 10px;
+			margin: 10px 0;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		button {
+			background-color: #333;
+			color: white;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<form id="myForm">
+		<input type="text" id="userInput" placeholder="Enter your text here">
+		<button type="submit">Submit</button>
+	</form>
+
+	<div id="result"></div>
+
+	<script>
+		// JavaScript to handle form submission and display results will go here
+		const form = document.getElementById('myForm');
+		const userInput = document.getElementById('userInput');
+		const resultDiv = document.getElementById('result');
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault(); // Prevent default form submission
+
+			// (1) Get the user's input
+			const inputValue = userInput.value;
+
+			// (2) Send data to your server-side code (using fetch or similar)
+			//     Replace 'your-server-endpoint' with the appropriate URL
+			fetch('/process-data', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						data: inputValue
+					})
+				})
+				.then(response => response.json()) // Assuming your server returns JSON
+				.then(data => {
+					// (3) Update the results area with the response from the server
+					resultDiv.textContent = data.result; // Example
+				})
+				.catch(error => console.error('Error:', error));
+
+		});
+	</script>
+</body>
+
+</html>
